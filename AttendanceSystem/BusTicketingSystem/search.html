@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Services - CloudBus</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .bus-card { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 1.8rem; background: rgba(255,255,255,0.55); border-radius: 16px; 
+            margin-bottom: 1.25rem; border: 1px solid var(--glass-border);
+            transition: all 0.3s ease; opacity: 0; transform: translateY(15px);
+            animation: slideInCard 0.5s ease forward;
+        }
+        .bus-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+        }
+        .bus-info h3 { margin-bottom: 0.4rem; color: var(--navy-blue); }
+        .tag-sleeper { background: #dff9fb; color: #130cb7; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
+        .bus-meta { font-size: 0.95rem; margin-top: 5px; color: #4b6584; }
+        .price-node { text-align: right; }
+        .amt { font-size: 1.6rem; font-weight: 700; color: var(--indian-green); margin-bottom: 0.4rem; }
+        .btn-select { width: auto; padding: 10px 20px; font-size: 0.9rem; }
+        @keyframes slideInCard { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚡ Routes Located</h1>
+        <nav><a href="index.html">Modify Search</a></nav>
+    </header>
+
+    <main class="glass-card">
+        <h2 id="routeHeading">Matching Runs...</h2>
+        <div id="resultsContainer"></div>
+    </main>
+
+    <script src="js/app.js"></script>
+    <script src="js/search.js"></script>
+</body>
+</html>

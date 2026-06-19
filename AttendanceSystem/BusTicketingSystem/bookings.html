@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Reservations - CloudBus</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .booking-row { background: rgba(255,255,255,0.6); padding: 1.5rem; border-radius: 14px; border: 1px solid var(--glass-border); margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+        .cancel-action { width: auto; background: linear-gradient(135deg, #ff4d4d 0%, #ff1a1a 100%); font-size: 0.85rem; padding: 10px 16px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚡ Personal Dashboard</h1>
+        <nav><a href="index.html">Main Hub</a></nav>
+    </header>
+
+    <main class="glass-card">
+        <input type="text" id="dashboardSearch" placeholder="Filter using PNR code or Passenger identity..." style="margin-bottom: 1.5rem;">
+        <div id="dashboardTarget"></div>
+    </main>
+
+    <script src="js/app.js"></script>
+    <script src="js/bookings.js"></script>
+</body>
+</html>

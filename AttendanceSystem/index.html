@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand"><a href="index.html">Pinnacle Labs Attendance</a></div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Dashboard</a></li>
+            <li><a href="roster.html">Manage Roster</a></li>
+            <li><a href="logs.html">Historical Logs</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-header" style="margin-bottom: 2rem;">
+            <h1>Real-Time Operations Terminal</h1>
+            <p id="current-date-label" style="color: var(--accent-secondary); font-weight: 600; margin-top: 0.25rem;"></p>
+        </div>
+
+        <div class="grid-metrics">
+            <div class="metric-card">
+                <div style="color: var(--text-muted);">Roster Size</div>
+                <div id="metric-total" class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+                <div style="color: var(--success);">Checked In</div>
+                <div id="metric-present" class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+                <div style="color: var(--danger);">Absent</div>
+                <div id="metric-absent" class="metric-value">0</div>
+            </div>
+            <div class="metric-card">
+                <div style="color: var(--accent-secondary);">Attendance Rate</div>
+                <div id="metric-rate" class="metric-value">0%</div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2 style="margin-bottom: 1.5rem;">Daily Roll Call Sheet</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Identifier</th>
+                            <th>Full Name</th>
+                            <th>Department</th>
+                            <th>Status Matrix</th>
+                            <th>Execution Router</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashboard-table-body">
+                        <!-- Dynamic Check In Interactive Elements Go Here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
