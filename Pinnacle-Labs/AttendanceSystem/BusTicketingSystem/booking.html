@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Inventory Layout - CloudBus</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .deck-container { background: rgba(255,255,255,0.7); border-radius: 16px; padding: 1.5rem; max-width: 360px; margin: 1.5rem auto; border: 2px solid #a5b1c2; }
+        .bus-driver-row { display: flex; justify-content: flex-end; margin-bottom: 15px; font-size: 1.4rem; padding-right: 10px; }
+        .grid-engine { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .seat { 
+            height: 45px; background: #ffffff; border: 2px solid #bdc3c7; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            font-size: 0.85rem; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .seat:hover:not(.booked) { transform: scale(1.1); border-color: var(--navy-blue); }
+        .seat.selected { background: var(--indian-green) !important; color: white !important; border-color: var(--indian-green) !important; animation: pop 0.2s ease; }
+        .seat.booked { background: #d1d8e0; color: #778ca3; border-color: #a5b1c2; cursor: not-allowed; }
+        .seat:nth-child(4n+2) { margin-right: 25px; } /* Simulates Aisle Space configuration */
+        
+        .indicator-row { display: flex; justify-content: space-between; max-width: 320px; margin: 0 auto 1.5rem; font-size: 0.85rem; font-weight: 600; }
+        .ind-box { display: inline-block; width: 16px; height: 16px; border-radius: 4px; vertical-align: middle; margin-right: 4px; }
+        @keyframes pop { 0% { transform: scale(0.9); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚡ Interactive Deck</h1>
+        <nav><a href="index.html">Abandone</a></nav>
+    </header>
+
+    <div class="glass-card">
+        <h3 id="targetBusTitle" style="text-align:center;">Loading Transport Configuration...</h3>
+        
+        <div class="indicator-row">
+            <div><span class="ind-box" style="background:#fff; border:1px solid #bdc3c7"></span>Available</div>
+            <div><span class="ind-box" style="background:#d1d8e0"></span>Booked</div>
+            <div><span class="ind-box" style="background:var(--indian-green)"></span>Selected</div>
+        </div>
+
+        <div class="deck-container">
+            <div class="bus-driver-row">🛞</div>
+            <div class="grid-engine" id="layoutGrid"></div>
+        </div>
+
+        <h3 style="text-align: center; margin: 1.5rem 0; color: var(--indian-green);">Total Fare: ₹<span id="calculatedFare">0</span></h3>
+
+        <form id="bookingForm">
+            <h3 style="border-bottom: 2px solid var(--glass-border); padding-bottom: 0.5rem;">Passenger Specifications</h3>
+            <div class="form-group"><label>Primary Passenger Name</label><input type="text" id="pName" required></div>
+            <div class="grid-2">
+                <div class="form-group"><label>Age</label><input type="number" id="pAge" max="110" required></div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="pGender"><option>Male</option><option>Female</option><option>Non-Binary</option></select>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group"><label>Mobile Number (+91)</label><input type="tel" id="pMobile" pattern="[6789][0-9]{9}" placeholder="9876543210" required></div>
+                <div class="form-group"><label>Email Notification Route</label><input type="email" id="pEmail" required></div>
+            </div>
+            <button type="submit" class="btn">Confirm Seats & Proceed ➔</button>
+        </form>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/booking.js"></script>
+</body>
+</html>

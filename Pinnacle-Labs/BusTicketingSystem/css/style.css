@@ -1,0 +1,195 @@
+/* css/style.css */
+:root {
+    --cloud-gradient: linear-gradient(135deg, #e6f2ff 0%, #c1d9ff 100%);
+    --indian-orange: #ff9933;
+    --navy-blue: #000080;
+    --indian-green: #138808;
+    --glass-bg: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.25);
+    --text-color: #1e272e;
+    --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: var(--cloud-gradient);
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Animated Cloud Elements */
+body::before, body::after {
+    content: '☁️';
+    position: absolute;
+    font-size: 5rem;
+    opacity: 0.15;
+    z-index: -1;
+    animation: floatClouds 25s linear infinite;
+}
+body::before { top: 10%; left: -10%; }
+body::after { top: 60%; left: -10%; animation-delay: 12s; animation-duration: 30s; }
+
+@keyframes floatClouds {
+    0% { transform: translateX(-10vw) translateY(0); }
+    50% { transform: translateX(50vw) translateY(-20px); }
+    100% { transform: translateX(110vw) translateY(0); }
+}
+
+header {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+header h1 {
+    font-weight: 800;
+    color: var(--navy-blue);
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--navy-blue);
+    margin-left: 1.5rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 4px;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--indian-orange);
+    transition: width 0.3s ease;
+}
+nav a:hover::after { width: 100%; }
+
+/* Core Glassmorphism Card with Entry Scale-up Animation */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 850px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    animation: scaleUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+h2, h3 {
+    margin-bottom: 1.5rem;
+    color: var(--navy-blue);
+}
+
+/* Form Styling & Floating Mechanics */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #34495e;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.65);
+    font-size: 1rem;
+    color: var(--text-color);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: var(--navy-blue);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 4px rgba(0, 0, 128, 0.1);
+}
+
+/* High-Grade Animated Buttons */
+.btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--navy-blue) 0%, #1e3799 100%);
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 80, 0.2);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 80, 0.3);
+}
+
+.btn:active {
+    transform: translateY(-1px);
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+/* Global Dynamic Animation Library Keyframes */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseHighlight {
+    0% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(74, 144, 226, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0); }
+}
+
+@media (max-width: 768px) {
+    .grid-2 { grid-template-columns: 1fr; gap: 1rem; }
+    header { flex-direction: column; gap: 1.5rem; text-align: center; }
+    nav a { margin: 0 0.7rem; }
+}

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ CloudBus India - Auto-Fix Animated Suite</title>
+    <style>
+        :root {
+            --cloud-gradient: linear-gradient(135deg, #e6f2ff 0%, #c1d9ff 100%);
+            --indian-orange: #ff9933;
+            --navy-blue: #000080;
+            --indian-green: #138808;
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-color: #1e272e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background: var(--cloud-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Clouds Animation */
+        body::before, body::after {
+            content: '☁️'; position: absolute; font-size: 6rem; opacity: 0.12; z-index: -1;
+            animation: floatClouds 30s linear infinite;
+        }
+        body::before { top: 12%; left: -10%; }
+        body::after { top: 65%; left: -10%; animation-delay: 15s; animation-duration: 35s; }
+
+        @keyframes floatClouds {
+            0% { transform: translateX(-10vw); }
+            100% { transform: translateX(110vw); }
+        }
+
+        header {
+            width: 100%; max-width: 900px; display: flex; justify-content: space-between;
+            align-items: center; padding: 1rem; margin-bottom: 1rem;
+        }
+
+        header h1 { color: var(--navy-blue); font-weight: 800; font-size: 1.8rem; }
+
+        .nav-btn {
+            background: var(--navy-blue); color: white; padding: 8px 16px; border-radius: 8px;
+            text-decoration: none; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none;
+            transition: all 0.3s; margin-left: 5px;
+        }
+        .nav-btn:hover { background: var(--indian-orange); transform: translateY(-2px); }
+
+        /* Moving Bus Banner */
+        .scenic-highway {
+            width: 100%; max-width: 850px; height: 60px; background: #57606f;
+            border-radius: 12px; margin-bottom: 1.5rem; position: relative; overflow: hidden;
+            border-bottom: 4px solid #2f3542; display: flex; align-items: center;
+        }
+        .highway-lines { width: 100%; height: 2px; border-top: 2px dashed #ffffff; opacity: 0.6; }
+        .animated-bus {
+            position: absolute; font-size: 2rem; bottom: 8px; left: -50px;
+            animation: driveBus 10s linear infinite;
+        }
+
+        @keyframes driveBus {
+            0% { left: -60px; }
+            100% { left: 105%; }
+        }
+
+        .app-module {
+            background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 24px; box-shadow: 0 8px 32px rgba(31,38,135,0.06);
+            width: 100%; max-width: 850px; padding: 2.2rem; display: none;
+            animation: scaleUp 0.4s ease-out both;
+        }
+        .app-module.active { display: block; }
+
+        h2, h3 { margin-bottom: 1.25rem; color: var(--navy-blue); }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; color: #2c3e50; }
+        
+        input, select {
+            width: 100%; padding: 12px; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px;
+            background: rgba(255,255,255,0.8); font-size: 1rem; outline: none;
+        }
+
+        .btn {
+            display: inline-block; background: linear-gradient(135deg, var(--navy-blue) 0%, #1e3799 100%);
+            color: white; padding: 14px 24px; border: none; border-radius: 10px; font-weight: 600;
+            cursor: pointer; text-align: center; width: 100%; transition: all 0.3s ease;
+        }
+        .btn:hover { transform: translateY(-2px); }
+
+        .bus-card {
+            background: rgba(255,255,255,0.8); padding: 1.5rem; border-radius: 16px;
+            border: 1px solid var(--glass-border); margin-bottom: 1rem;
+            display: flex; justify-content: space-between; align-items: center;
+            animation: slideIn 0.4s ease-out both;
+        }
+        .tag-ac { background: #e3fafc; color: #0b7285; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; font-weight: 700; }
+
+        /* Seats Map */
+        .seat-map-wrapper { background: #f1f2f6; border: 2px solid #ced6e0; border-radius: 16px; padding: 1.5rem; max-width: 320px; margin: 1.5rem auto; }
+        .seats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .seat {
+            height: 40px; background: #fff; border: 2px solid #a4b0be; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .seat.selected { background: var(--indian-green) !important; color: white; border-color: var(--indian-green); }
+        .seat.booked { background: #ced6e0; color: #747d8c; border-color: #ced6e0; cursor: not-allowed; }
+        .seat:nth-child(4n+2) { margin-right: 20px; }
+
+        .loader-overlay {
+            display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(255,255,255,0.95); z-index: 100; align-items: center; justify-content: center;
+            flex-direction: column; font-weight: 700;
+        }
+        .spinner {
+            width: 45px; height: 45px; border: 5px solid rgba(0,0,80,0.1); border-top-color: var(--navy-blue);
+            border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1rem;
+        }
+
+        @keyframes scaleUp { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div class="loader-overlay" id="paymentLoader">
+        <div class="spinner"></div>
+        <p id="loaderMessage">Connecting to Secure Payment Gateway...</p>
+    </div>
+
+    <header>
+        <h1>☁️ CloudBus India</h1>
+        <div>
+            <button class="nav-btn" onclick="showModule('homeMod')">Home</button>
+            <button class="nav-btn" onclick="showModule('bookingsMod'); renderBookings();">My Bookings</button>
+        </div>
+    </header>
+
+    <div class="scenic-highway">
+        <div class="animated-bus">🚌</div>
+        <div class="highway-lines"></div>
+    </div>
+
+    <main class="app-module active" id="homeMod">
+        <h2>Search Indian Luxury Buses</h2>
+        <form id="searchForm">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>From (Source)</label>
+                    <select id="sourceCity">
+                        <option value="Bengaluru">Bengaluru</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Pune">Pune</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>To (Destination)</label>
+                    <select id="destCity">
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Jaipur">Jaipur</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Journey Date</label>
+                <input type="date" id="jDate" required>
+            </div>
+            <button type="submit" class="btn">Search Buses ➔</button>
+        </form>
+    </main>
+
+    <div class="app-module" id="searchMod">
+        <h2 id="searchResultsTitle">Routes Found</h2>
+        <div id="searchResultsContainer"></div>
+    </div>
+
+    <div class="app-module" id="bookingMod">
+        <h3>Select Your Seats</h3>
+        <div class="seat-map-wrapper">
+            <div class="seats-grid" id="seatChartPlaceholder"></div>
+        </div>
+        <h3 style="text-align:center; color:var(--indian-green); margin-bottom:1.5rem;">Total: ₹<span id="fareDisplay">0</span></h3>
+        <form id="passengerForm">
+            <div class="form-group"><label>Passenger Name</label><input type="text" id="passName" required></div>
+            <div class="grid-2">
+                <div class="form-group"><label>Age</label><input type="number" id="passAge" required></div>
+                <div class="form-group"><label>Gender</label><select id="passGen"><option>Male</option><option>Female</option></select></div>
+            </div>
+            <div class="grid-2">
+                <div class="form-group"><label>Mobile</label><input type="tel" id="passPhone" required></div>
+                <div class="form-group"><label>Email</label><input type="email" id="passEmail" required></div>
+            </div>
+            <button type="submit" class="btn">Proceed to Pay ➔</button>
+        </form>
+    </div>
+
+    <div class="app-module" id="paymentMod" style="max-width: 500px;">
+        <h2>Payment Gateway</h2>
+        <h3 id="paymentAmountText" style="color:var(--indian-green); margin-bottom:1.5rem;">Amount: ₹0</h3>
+        <form id="paymentForm">
+            <div class="form-group">
+                <label>UPI ID</label>
+                <input type="text" placeholder="username@upi" required>
+            </div>
+            <button type="submit" class="btn" style="background:var(--indian-green);">Pay Securely</button>
+        </form>
+    </div>
+
+    <div class="app-module" id="confirmMod" style="max-width: 550px; text-align: center;">
+        <h2 style="color:var(--indian-green);">🎉 Booking Successful!</h2>
+        <div id="ticketInvoiceArea" style="text-align:left; background:#fff; padding:1.5rem; border-radius:12px; margin:1.5rem 0; line-height:1.8; border:1px solid #ddd;"></div>
+        <button class="btn" onclick="showModule('homeMod')">Book Another Ticket</button>
+    </div>
+
+    <div class="app-module" id="bookingsMod">
+        <h2>Your Bookings</h2>
+        <div id="historyLogsContainer" style="margin-top:1.5rem;"></div>
+    </div>
+
+    <script>
+        // Internal data array (No local storage required for searching)
+        const staticBuses = [
+            { id: "B1", name: "KSRTC Ambaari Dream Class", source: "Bengaluru", destination: "Mumbai", departure: "03:30 PM", arrival: "07:30 AM", price: 1550, totalSeats: 16, bookedSeats: ["L1"] },
+            { id: "B2", name: "VRL Travels Multi-Axle Volvo", source: "Bengaluru", destination: "Mumbai", departure: "08:00 PM", arrival: "11:45 AM", price: 1750, totalSeats: 16, bookedSeats: ["L5"] },
+            { id: "B3", name: "Zingbus Premium A/C", source: "Delhi", destination: "Jaipur", departure: "06:00 AM", arrival: "11:00 AM", price: 650, totalSeats: 16, bookedSeats: [] },
+            { id: "B4", name: "MSRTC Shivshahi Classic", source: "Pune", destination: "Mumbai", departure: "09:15 PM", arrival: "01:30 AM", price: 550, totalSeats: 16, bookedSeats: [] }
+        ];
+
+        let checkoutSession = null;
+        const liveBookings = [];
+
+        // Set default calendar date to today
+        document.getElementById('jDate').valueAsDate = new Date();
+
+        function showModule(id) {
+            document.querySelectorAll('.app-module').forEach(m => m.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // Search Form Logic
+        document.getElementById('searchForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const src = document.getElementById('sourceCity').value;
+            const dst = document.getElementById('destCity').value;
+            const date = document.getElementById('jDate').value;
+
+            document.getElementById('searchResultsTitle').innerText = `${src} ➔ ${dst} (${date})`;
+            
+            // Core matching filter engine
+            const matches = staticBuses.filter(b => b.source.toLowerCase() === src.toLowerCase() && b.destination.toLowerCase() === dst.toLowerCase());
+            
+            const container = document.getElementById('searchResultsContainer');
+            container.innerHTML = '';
+
+            if(matches.length === 0) {
+                container.innerHTML = `<p style="text-align:center; padding:2rem; color:red; font-weight:bold;">No routes found! Please select "Bengaluru to Mumbai" or "Delhi to Jaipur".</p>`;
+            } else {
+                matches.forEach(bus => {
+                    const div = document.createElement('div');
+                    div.className = 'bus-card';
+                    div.innerHTML = `
+                        <div>
+                            <h3>${bus.name} <span class="tag-ac">A/C Sleeper</span></h3>
+                            <p style="color:#555; margin-top:5px;">Departs: ${bus.departure} | Arrives: ${bus.arrival}</p>
+                        </div>
+                        <div style="text-align:right;">
+                            <h3 style="color:var(--indian-green);">₹${bus.price}</h3>
+                            <button class="nav-btn" onclick="openSeatSelection('${bus.id}')">Select</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+            showModule('searchMod');
+        });
+
+        // Seat Generation Logic
+        function openSeatSelection(busId) {
+            const bus = staticBuses.find(b => b.id === busId);
+            checkoutSession = { bus, chosenSeats: [] };
+
+            const grid = document.getElementById('seatChartPlaceholder');
+            grid.innerHTML = '';
+            document.getElementById('fareDisplay').innerText = "0";
+
+            for(let i = 1; i <= bus.totalSeats; i++) {
+                const seatNo = `L${i}`;
+                const seatEl = document.createElement('div');
+                seatEl.className = 'seat';
+                seatEl.innerText = seatNo;
+
+                if(bus.bookedSeats.includes(seatNo)) {
+                    seatEl.classList.add('booked');
+                } else {
+                    seatEl.addEventListener('click', () => {
+                        if(seatEl.classList.contains('selected')) {
+                            seatEl.classList.remove('selected');
+                            checkoutSession.chosenSeats.splice(checkoutSession.chosenSeats.indexOf(seatNo), 1);
+                        } else {
+                            seatEl.classList.add('selected');
+                            checkoutSession.chosenSeats.push(seatNo);
+                        }
+                        document.getElementById('fareDisplay').innerText = checkoutSession.chosenSeats.length * bus.price;
+                    });
+                }
+                grid.appendChild(seatEl);
+            }
+            showModule('bookingMod');
+        }
+
+        // Passenger Form Submission
+        document.getElementById('passengerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if(checkoutSession.chosenSeats.length === 0) { alert('Please select a seat first!'); return; }
+            
+            checkoutSession.name = document.getElementById('passName').value;
+            checkoutSession.totalAmount = checkoutSession.chosenSeats.length * checkoutSession.bus.price;
+
+            document.getElementById('paymentAmountText').innerText = `Amount: ₹${checkoutSession.totalAmount}`;
+            showModule('paymentMod');
+        });
+
+        // Payment Simulation Logic
+        document.getElementById('paymentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('paymentLoader').style.display = 'flex';
+
+            setTimeout(() => {
+                // Add chosen seats to booked array
+                checkoutSession.bus.bookedSeats.push(...checkoutSession.chosenSeats);
+                
+                const pnr = 'PNR-' + Math.floor(100000 + Math.random() * 900000);
+                const ticket = {
+                    pnr: pnr,
+                    busName: checkoutSession.bus.name,
+                    route: `${checkoutSession.bus.source} to ${checkoutSession.bus.destination}`,
+                    passenger: checkoutSession.name,
+                    seats: checkoutSession.chosenSeats.join(', '),
+                    paid: checkoutSession.totalAmount
+                };
+
+                liveBookings.push(ticket);
+                document.getElementById('paymentLoader').style.display = 'none';
+
+                document.getElementById('ticketInvoiceArea').innerHTML = `
+                    <b>PNR Number:</b> ${ticket.pnr}<br>
+                    <b>Passenger Name:</b> ${ticket.passenger}<br>
+                    <b>Bus Operator:</b> ${ticket.busName}<br>
+                    <b>Route:</b> ${ticket.route}<br>
+                    <b>Seats Reserved:</b> ${ticket.seats}<br>
+                    <b>Amount Settled:</b> ₹${ticket.paid}
+                `;
+                showModule('confirmMod');
+            }, 2500);
+        });
+
+        // Render Bookings Menu
+        function renderBookings() {
+            const container = document.getElementById('historyLogsContainer');
+            container.innerHTML = '';
+
+            if(liveBookings.length === 0) {
+                container.innerHTML = '<p style="text-align:center; padding:1rem; color:#666;">No bookings found yet.</p>';
+                return;
+            }
+
+            liveBookings.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'ticket-item';
+                card.innerHTML = `
+                    <h4>Ticket ${t.pnr}</h4>
+                    <p>Passenger: <b>${t.passenger}</b> | Bus: ${t.busName}</p>
+                    <p>Route: ${t.route} | Seats: <b>${t.seats}</b></p>
+                    <p style="color:var(--indian-green); font-weight:bold; margin-top:5px;">Amount Paid: ₹${t.paid}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
